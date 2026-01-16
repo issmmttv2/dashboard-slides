@@ -407,85 +407,62 @@ elif page == "Product 0: Phase Deep-Dives":
 # --- PAGE 6: STRATEGY & ROI LOGIC ---
 elif page == "Strategy & ROI Logic":
     st.title("🎯 The 'How' and 'Why': Logic & Formulas")
-    st.markdown("""
-    This section documents the mathematical framework used to prioritize accounts. 
-    Product Zero uses these formulas to remove subjectivity from sales assignments.
-    """)
+    st.markdown("This section documents the mathematical framework used to prioritize accounts and identify coverage gaps.")
 
-    # 1. ROI Speed Score
+    # 1. ROI Speed Score Formula
     st.subheader("1. ROI Speed Score Calculation")
-    st.markdown("""
-    The ROI Speed Score predicts how fast revenue can be recovered or stabilized. 
-    It is a weighted average of three normalized variables:
-    """)
+    st.markdown("The ROI Speed Score predicts how fast revenue can be stabilized or recovered based on existing 'muscle memory' and undefended status.")
     st.latex(r"ROI = (Recent\_Activity \times 0.4) + (Historical\_Revenue \times 0.4) + (Coverage\_Gap \times 0.2)")
     
-    with st.expander("Variable Definitions"):
-        st.markdown("""
-        - **Recent Activity (40%)**: A 0-100 score based on order frequency in the last 90 days. High activity = high score.
-        - **Historical Revenue (40%)**: A 0-100 score based on the total Lifetime Value (LTV) of the account.
-        - **Coverage Gap (20%)**: A 'low-hanging fruit' bonus. If an account is active but has no rep (Phase 1A), it receives the full 20% weight.
-        """)
+    with st.expander("Formula Variable Breakdown"):
+        st.write("**Recent Activity (40%):** Frequency of orders in the last 90 days.")
+        st.write("**Historical Revenue (40%):** Normalized Lifetime Value (LTV) relative to the portfolio.")
+        st.write("**Coverage Gap (20%):** A priority bonus applied automatically if an account is in Phase 1A.")
 
-    # 2. Revenue Leakage: Frequency Drop
+    # 2. Frequency Drop Calculation
     st.subheader("2. Leakage Detector: Frequency Drop %")
-    st.markdown("""
-    Silent attrition is detected by measuring the decay in ordering patterns compared to a customer's historical baseline.
-    """)
-    st.latex(r"Frequency\_Drop\,\% = \frac{\text{Baseline Frequency} - \text{Current Frequency}}{\text{Baseline Frequency}}")
-    
-    with st.expander("Calculation Logic"):
-        st.markdown("""
-        - **Baseline Frequency**: Average orders per month over the trailing 12 months.
-        - **Current Frequency**: Average orders per month over the last 3 months.
-        - **The 25% Threshold**: Any account exceeding a 25% drop is automatically flagged for a diagnostic call.
-        """)
+    st.markdown("Silent attrition is detected by measuring the decay in ordering frequency relative to the account's unique baseline.")
+    st.latex(r"Freq\_Drop\,\% = \frac{\text{Baseline Frequency} - \text{Current Frequency}}{\text{Baseline Frequency}}")
+    st.caption("Threshold: Drops > 25% trigger a Product 2 Early Warning alert.")
 
     # 3. Estimated Recoverable Revenue
     st.subheader("3. Estimated Recoverable Revenue (Annualized)")
+    st.markdown("This formula quantifies the 'Cost of Inaction' by annualizing the gap between a customer’s healthy state and current state.")
+    st.latex(r"Est.\,Recoverable\,Rev = (\text{Baseline Monthly \$} - \text{Current Monthly \$}) \times 12")
+    st.info("Multiplying by 12 allows Product Zero to rank a 'consistent leak' against a 'sudden drop' for better prioritization.")
+
+    # 4. Coverage Gap Logic (The ROI Filter)
+    st.subheader("4. Coverage Gap & Alignment Logic")
     st.markdown("""
-    This calculates the dollar value of the 'gap' between a customer's healthy state and their current declining state.
+    Coverage gaps are identified by comparing the **ROI Speed Score** (Account Potential) 
+    against the **Rep Role** (Resource Level). 
     """)
-    st.latex(r"Est.\,Recoverable\,Revenue = (\text{Baseline Monthly Rev} - \text{Current Monthly Rev}) \times 12")
-    st.info("**Why 12 months?** Annualizing the loss helps sales managers prioritize a 'consistent leak' over a one-time missed order.")
-
-    # 4. Coverage Gap Analysis (ROI-Based Logic)
-    st.subheader("4. Coverage Gap Analysis & Resource Alignment")
-    st.markdown("""
-    The system identifies gaps by comparing the **ROI Speed Score** (Account Potential) against the 
-    **Rep Role** (Resource Cost). A gap is not just "missing" coverage; it is "misaligned" coverage.
-    """)
-
-    # Highlighting the ROI connection
-    st.info("""
-    **The ROI Rule:** - If **ROI Score > 70** and **Rep = None**, it is flagged as a **Phase 1A Critical Gap**.
-    - If **ROI Score > 70** and **Rep = Inside**, it is flagged as **Under-Serviced** (needs a Field Rep).
-    """)
-
-    # Formulas/Conditions for the Gap
-    st.markdown("### Coverage Status Conditions")
-    st.markdown("\"\"
-    | Condition | ROI Threshold | Assigned Role | Condition Met |
-    | :--- | :--- | :--- | :--- |
-    | **Critical Gap** | > 70 | None | High-potential revenue is undefended. |
-    | **Service Gap** | > 60 | Inside Sales | High-potential account is being under-served. |
-    | **Efficiency Gap** | < 30 | Outside Sales | High-cost resource is assigned to low-potential account. |
-    | **Optimized** | Matches Phase | Correct Tier | Resource is perfectly aligned with ROI speed. |
-    \"\"\")
-
-    # Formula for Logic (Pseudo-code)
-    st.latex(r"Gap\_Status = \begin{cases} \text{Critical} & \text{if } ROI > 70 \text{ and Rep} = None \\ \text{Misaligned} & \text{if } ROI > 70 \text{ and Rep} = Inside \\ \text{Inefficient} & \text{if } ROI < 30 \text{ and Rep} = Outside \end{cases}")
-    # Visualizing the Result
-    st.divider()
-    st.subheader("Priority Clustering (The Output)")
-    st.markdown("**Logic:** The Heatmap below is the visual result of the formulas above. Accounts in the top-right represent the fastest path to revenue.")
     
+    # Piecewise Function for Gap Identification
+    st.latex(r"Gap\_Status = \begin{cases} \text{Critical Gap} & \text{if } ROI > 70 \text{ and Rep} = None \\ \text{Under-Serviced} & \text{if } ROI > 70 \text{ and Rep} = Inside \\ \text{Inefficient} & \text{if } ROI < 30 \text{ and Rep} = Outside \end{cases}")
+
+    # Visual Matrix
+    st.markdown("### Resource Alignment Matrix")
+    st.markdown("""
+    | Condition | ROI Score | Assigned Role | Strategic Logic |
+    | :--- | :--- | :--- | :--- |
+    | **Critical Gap** | > 70 | None | High-potential account is completely undefended. |
+    | **Service Gap** | > 70 | Inside Sales | Potential is too high for low-touch inside sales. |
+    | **Waste Gap** | < 30 | Outside Sales | High-cost field rep is over-servicing a low-value account. |
+    | **Aligned** | Matches | Matches | Resource is perfectly optimized for revenue recovery. |
+    """)
+
+    
+
+    # Visualizing the Output
+    st.divider()
+    st.subheader("Outcome: Priority Heatmap")
+    st.markdown("The cluster below represents the final application of these 4 formulas.")
     fig_scatter = px.scatter(action_df, x='roi_speed_score', y='priority_label', 
                              color='recommended_phase', size='roi_speed_score',
                              hover_name='account_name', title="Opportunity Heatmap",
-                             labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority Label'})
+                             labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority'})
     st.plotly_chart(fig_scatter, use_container_width=True)
-
 '''
 elif page == "Strategy & ROI Logic":
     st.title("🎯 The 'How' and 'Why'")
