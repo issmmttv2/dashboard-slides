@@ -18,21 +18,30 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    # Loading the CSV versions of the data
-    overview = pd.read_csv('Mock-productzero-sheet 2.xlsx - Executive_Overview.csv')
-    actions = pd.read_csv('Mock-productzero-sheet 2.xlsx - Account_Action_List.csv')
-    logic = pd.read_csv('Mock-productzero-sheet 2.xlsx - ROI_Logic_Explained.csv')
-    summary = pd.read_csv('Mock-productzero-sheet 2.xlsx - Phase_Summary.csv')
-    coverage = pd.read_csv('mock_day1-2_account_coverage.xlsx - in.csv')
+    # 1. Main Strategy Workbook
+    strategy_file = 'Mock-productzero-sheet 2.xlsx'
+    overview = pd.read_excel(strategy_file, sheet_name='Executive_Overview')
+    actions = pd.read_excel(strategy_file, sheet_name='Account_Action_List')
+    logic = pd.read_excel(strategy_file, sheet_name='ROI_Logic_Explained')
+    summary = pd.read_excel(strategy_file, sheet_name='Phase_Summary')
+    
+    # 2. Coverage Workbook (Mock day1-2)
+    coverage_file = 'mock_day1-2_account_coverage.xlsx'
+    # Reading from sheet 'in' as per your file name
+    coverage = pd.read_excel(coverage_file, sheet_name='in')
+    
+    # 3. Generated Leakage Files (CSVs)
     leakage = pd.read_csv('revenue_leakage_detector.csv')
     next_call = pd.read_csv('next_best_call_list.csv')
+    
     return overview, actions, logic, summary, coverage, leakage, next_call
 
 try:
     overview_df, action_df, logic_df, summary_df, coverage_df, leakage_df, next_call_df = load_data()
 except Exception as e:
-    st.error(f"Error loading data: {e}")
+    st.error(f"Error loading files. Ensure filenames match exactly on GitHub. Error: {e}")
     st.stop()
+
 
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.title("🛠 Navigation")
