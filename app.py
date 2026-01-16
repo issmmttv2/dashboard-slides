@@ -214,7 +214,36 @@ elif page == "Product 2: Leakage Detector":
     st.markdown("""
     **Purpose:** Spotting silent attrition by identifying drops in order frequency before accounts go dormant.
     """)
+    st.markdown("""
+    *Purpose:* Spotting silent attrition by identifying drops in order frequency before accounts go dormant.
+    """)
 
+    # --- STRATEGIC INSIGHTS SECTION ---
+    st.subheader("Revenue Leakage: Strategic Insights")
+    
+    col_ins1, col_ins2 = st.columns(2)
+    with col_ins1:
+        st.info("""
+        *🔍 Silent Attrition*
+        Several high-value accounts remain “Active” on paper but have seen a *50%+ drop* in order frequency. This is a leading indicator of churn where the customer is likely shifting volume to a competitor.
+        """)
+        st.info("""
+        *🎯 Concentrated Risk*
+        Leakage is often concentrated in specific product categories, suggesting a targeted competitive play that needs to be addressed with specific product-led playbooks.
+        """)
+
+    with col_ins2:
+        st.info("""
+        *💰 The Frequency-Revenue Gap*
+        Stabilizing frequency across the top 20 leaking accounts represents a significant recovery opportunity, estimated at *over $200k* in this specific dataset.
+        """)
+        st.info("""
+        *🛡️ Early Warning System*
+        By detecting frequency drops at the *25% threshold*, sales can intervene weeks or months before an account officially becomes “Declining” or “Dormant.”
+        """)
+
+    st.divider()
+    
     c1, c2 = st.columns([1, 1])
     with c1:
         st.subheader("How & Why")
