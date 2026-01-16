@@ -463,20 +463,6 @@ elif page == "Strategy & ROI Logic":
                              hover_name='account_name', title="Opportunity Heatmap",
                              labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority'})
     st.plotly_chart(fig_scatter, use_container_width=True)
-'''
-elif page == "Strategy & ROI Logic":
-    st.title("🎯 The 'How' and 'Why'")
-    
-    st.subheader("Scoring Weights (The How)")
-    st.table(logic_df)
-    
-    st.subheader("Priority Clustering (The Why)")
-    st.markdown("**Legend:** Larger bubbles indicate higher ROI speed scores. High-priority accounts (top-right) represent the fastest path to revenue recovery.")
-    fig_scatter = px.scatter(action_df, x='roi_speed_score', y='priority_label', 
-                             color='recommended_phase', size='roi_speed_score',
-                             hover_name='account_name', title="Opportunity Heatmap",
-                             labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority Label'})
-    st.plotly_chart(fig_scatter, use_container_width=True)'''
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Product Zero Dashboard v1.1 | Execution Framework")
