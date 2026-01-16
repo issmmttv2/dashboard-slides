@@ -28,8 +28,8 @@ def load_data():
     # 2. Coverage Workbook (Mock day1-2)
     #canonical_df = 'canonical_dataset.xlsx'
     coverage_file = 'mock_day1-2_account_coverage.xlsx'
-    canonical_df = pd.read_csv('canonical_dataset.xlsx - Sheet1.csv')
-    canonical_df['order_date'] = pd.to_datetime(canonical_df['order_date']) # Ensure dates are usable
+    #canonical_df = pd.read_csv('canonical_dataset.xlsx - Sheet1.csv')
+    #canonical_df['order_date'] = pd.to_datetime(canonical_df['order_date']) # Ensure dates are usable
     # Reading from sheet 'in' as per your file name
     coverage = pd.read_excel(coverage_file, sheet_name='in')
     
@@ -117,51 +117,64 @@ if page == "Executive Summary":
 # --- NEW PAGE: CANONICAL DATASET ---
 elif page == "Canonical Dataset":
     st.title("🗂️ Canonical Dataset: The Single Source of Truth")
-    st.markdown("This dataset is the foundation of Product Zero. It merges customer masters, order history, and rep assignments into a normalized schema.")
+    st.markdown("""
+    This section visualizes the raw data foundation. We are reading directly from 
+    the **canonical_dataset.xlsx** file you provided.
+    """)
 
-    # Visuals Row 1
+    # Load Data directly from Excel
+    # Note: Ensure 'openpyxl' is installed in your environment
+    canonical_df = pd.read_excel('canonical_dataset.xlsx')
+    
+    # Ensure date format is correct for time-series analysis
+    canonical_df['order_date'] = pd.to_datetime(canonical_df['order_date'])
+
+    # Visuals Row 1: Segment Breakdown and Time Trends
     c1, c2 = st.columns(2)
     with c1:
         st.subheader("Revenue by Category")
         cat_rev = canonical_df.groupby('category')['order_value'].sum().reset_index()
         fig_cat = px.bar(cat_rev, x='category', y='order_value', color='category', 
-                         text_auto='.2s', title="Total Spend per Vertical")
+                         text_auto='.2s', title="Spend Distribution by Vertical",
+                         color_discrete_sequence=px.colors.qualitative.Pastel)
         st.plotly_chart(fig_cat, use_container_width=True)
     
     with c2:
         st.subheader("Monthly Revenue Trend")
-        trend = canonical_df.resample('M', on='order_date')['order_value'].sum().reset_index()
+        # Grouping by Month Start to show continuous velocity
+        trend = canonical_df.resample('MS', on='order_date')['order_value'].sum().reset_index()
         fig_trend = px.line(trend, x='order_date', y='order_value', markers=True, 
-                            title="Sales Velocity (Month over Month)")
+                            title="Portfolio Sales Velocity")
         st.plotly_chart(fig_trend, use_container_width=True)
 
-    # Visuals Row 2
+    # Visuals Row 2: Profitability and Power Users
     c3, c4 = st.columns(2)
     with c3:
-        st.subheader("Profitability Analysis")
-        fig_margin = px.histogram(canonical_df, x='margin', color='rep_role', 
-                                  marginal="box", title="Margin Distribution by Rep Tier")
+        st.subheader("Order Margin Distribution")
+        fig_margin = px.histogram(canonical_df, x='margin', title="Profitability Spread",
+                                  color_discrete_sequence=['#2ecc71'])
         st.plotly_chart(fig_margin, use_container_width=True)
         
     with c4:
-        st.subheader("Top 10 Accounts by Revenue")
+        st.subheader("Top 10 High-Value Accounts")
         top_accs = canonical_df.groupby('account_name')['order_value'].sum().nlargest(10).reset_index()
         fig_top = px.bar(top_accs, x='order_value', y='account_name', orientation='h',
-                         title="Highest Value Portfolio Accounts")
+                         title="Core Revenue Drivers", color='order_value', 
+                         color_continuous_scale='Viridis')
+        fig_top.update_layout(yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(fig_top, use_container_width=True)
 
-    # The Legend
+    # Data Label Legend
     st.divider()
     st.subheader("📘 Data Label Legend")
-    cols = st.columns(4)
-    cols[0].markdown("**Order Value**\nThe gross transaction amount in USD.")
-    cols[1].markdown("**Margin**\nThe profit retained after cost of goods sold.")
-    cols[2].markdown("**Category**\nThe specific product vertical (Plumbing, Safety, etc).")
-    cols[3].markdown("**Rep Role**\nSales tier: 'Outside' (Field) vs 'Inside' (Office).")
+    cols = st.columns(3)
+    cols[0].markdown("- **customer_id**: Unique ID.\n- **account_name**: Business name.\n- **order_id**: Transaction ID.")
+    cols[1].markdown("- **order_date**: Purchase date.\n- **order_value**: Revenue amount.\n- **sku**: Product ID.")
+    cols[2].markdown("- **category**: Product vertical.\n- **rep_role**: Service tier.\n- **margin**: Net profit.")
 
-    # Data Table
-    st.subheader("Raw Canonical Records")
-    st.dataframe(canonical_df, use_container_width=True)
+    # Interactive Data Explorer
+    st.subheader("Raw Data Explorer")
+    st.dataframe(canonical_df, use_container_width=True, hide_index=True)
     
 # --- PAGE 2: PRODUCT 1 (COVERAGE) ---
 elif page == "Product 1: Coverage Analyzer":
