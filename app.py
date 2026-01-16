@@ -464,7 +464,7 @@ elif page == "Strategy & ROI Logic":
 
     # Formulas/Conditions for the Gap
     st.markdown("### Coverage Status Conditions")
-    st.markdown("\"\"\"
+    st.markdown("\"\"
     | Condition | ROI Threshold | Assigned Role | Condition Met |
     | :--- | :--- | :--- | :--- |
     | **Critical Gap** | > 70 | None | High-potential revenue is undefended. |
