@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # --- CONFIGURATION & PAGE STYLE ---
-st.set_page_config(page_title="Product Zero | Sales Strategy Dashboard", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Product Zero | Sales Strategy", layout="wide", initial_sidebar_state="expanded")
 
 # Custom CSS for a professional look
 st.markdown("""
@@ -46,11 +46,11 @@ except Exception as e:
 # --- SIDEBAR NAVIGATION ---
 st.sidebar.title("🛠 Navigation")
 page = st.sidebar.radio("Go to", [
-    "Executive Summary", 
+    "Executive Summary",
+    "Product 0: Phase Deep-Dives",
     "Product 1: Coverage Analyzer", 
     "Product 2: Leakage Detector", 
     "Product 3: Playbooks",
-    "Phase Deep-Dives", 
     "Strategy & ROI Logic"
 ])
 
@@ -216,12 +216,12 @@ elif page == "Product 3: Playbooks":
         """)
 
 # --- PAGE 5: PHASE DEEP-DIVES ---
-elif page == "Phase Deep-Dives":
+elif page == "Product 0: Phase Deep-Dives":
     st.title("📂 Execution Lists by Phase")
     
     st.markdown("""
     <div class='legend-box'>
-    <strong>Legend:</strong><br>
+    <strong></strong><br>
     - <strong>ROI Speed Score:</strong> 0-100 scale predicting how fast revenue can be recovered.<br>
     - <strong>Recommended Action:</strong> The primary objective for this account segment.
     </div>
