@@ -404,6 +404,79 @@ elif page == "Product 0: Phase Deep-Dives":
         st.download_button("📥 Export List to CSV", data=csv, file_name=f"{selected_phase}_list.csv")
 
 # --- PAGE 6: STRATEGY & ROI LOGIC ---
+# --- PAGE 6: STRATEGY & ROI LOGIC ---
+elif page == "Strategy & ROI Logic":
+    st.title("🎯 The 'How' and 'Why': Logic & Formulas")
+    st.markdown("""
+    This section documents the mathematical framework used to prioritize accounts. 
+    Product Zero uses these formulas to remove subjectivity from sales assignments.
+    """)
+
+    # 1. ROI Speed Score
+    st.subheader("1. ROI Speed Score Calculation")
+    st.markdown("""
+    The ROI Speed Score predicts how fast revenue can be recovered or stabilized. 
+    It is a weighted average of three normalized variables:
+    """)
+    st.latex(r"ROI = (Recent\_Activity \times 0.4) + (Historical\_Revenue \times 0.4) + (Coverage\_Gap \times 0.2)")
+    
+    with st.expander("Variable Definitions"):
+        st.markdown("""
+        - **Recent Activity (40%)**: A 0-100 score based on order frequency in the last 90 days. High activity = high score.
+        - **Historical Revenue (40%)**: A 0-100 score based on the total Lifetime Value (LTV) of the account.
+        - **Coverage Gap (20%)**: A 'low-hanging fruit' bonus. If an account is active but has no rep (Phase 1A), it receives the full 20% weight.
+        """)
+
+    # 2. Revenue Leakage: Frequency Drop
+    st.subheader("2. Leakage Detector: Frequency Drop %")
+    st.markdown("""
+    Silent attrition is detected by measuring the decay in ordering patterns compared to a customer's historical baseline.
+    """)
+    st.latex(r"Frequency\_Drop\,\% = \frac{\text{Baseline Frequency} - \text{Current Frequency}}{\text{Baseline Frequency}}")
+    
+    with st.expander("Calculation Logic"):
+        st.markdown("""
+        - **Baseline Frequency**: Average orders per month over the trailing 12 months.
+        - **Current Frequency**: Average orders per month over the last 3 months.
+        - **The 25% Threshold**: Any account exceeding a 25% drop is automatically flagged for a diagnostic call.
+        """)
+
+    # 3. Estimated Recoverable Revenue
+    st.subheader("3. Estimated Recoverable Revenue (Annualized)")
+    st.markdown("""
+    This calculates the dollar value of the 'gap' between a customer's healthy state and their current declining state.
+    """)
+    st.latex(r"Est.\,Recoverable\,Revenue = (\text{Baseline Monthly Rev} - \text{Current Monthly Rev}) \times 12")
+    st.info("**Why 12 months?** Annualizing the loss helps sales managers prioritize a 'consistent leak' over a one-time missed order.")
+
+    # 4. Coverage Gap Analysis
+    st.subheader("4. Coverage Gap Conditions")
+    st.markdown("""
+    The system audits the alignment between **Account Potential** (Phase) and **Resource Cost** (Rep Role).
+    """)
+    
+    # Condition Table
+    st.markdown("""
+    | Condition | Criteria (Phase + Rep Role) | Strategic Action |
+    | :--- | :--- | :--- |
+    | **No Coverage** | Phase 1A / 1B + No Assigned Rep | **Urgent:** Highest ROI. Assign Rep immediately to stop churn. |
+    | **Misaligned (Under-serviced)** | Phase 1A / 2 + Inside Sales | **Upgrade:** High potential requires Outside Sales high-touch. |
+    | **Misaligned (Over-serviced)** | Phase 3 + Outside Sales | **Optimize:** High-cost resource on low-value account. Move to Digital. |
+    | **Aligned** | Phase matches Role (e.g. Phase 2 + Outside) | **Maintain:** Monitor for any frequency drops (Product 2). |
+    """)
+
+    # Visualizing the Result
+    st.divider()
+    st.subheader("Priority Clustering (The Output)")
+    st.markdown("**Logic:** The Heatmap below is the visual result of the formulas above. Accounts in the top-right represent the fastest path to revenue.")
+    
+    fig_scatter = px.scatter(action_df, x='roi_speed_score', y='priority_label', 
+                             color='recommended_phase', size='roi_speed_score',
+                             hover_name='account_name', title="Opportunity Heatmap",
+                             labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority Label'})
+    st.plotly_chart(fig_scatter, use_container_width=True)
+
+'''
 elif page == "Strategy & ROI Logic":
     st.title("🎯 The 'How' and 'Why'")
     
@@ -416,7 +489,7 @@ elif page == "Strategy & ROI Logic":
                              color='recommended_phase', size='roi_speed_score',
                              hover_name='account_name', title="Opportunity Heatmap",
                              labels={'roi_speed_score': 'ROI Speed Score', 'priority_label': 'Priority Label'})
-    st.plotly_chart(fig_scatter, use_container_width=True)
+    st.plotly_chart(fig_scatter, use_container_width=True)'''
 
 st.sidebar.markdown("---")
 st.sidebar.caption("Product Zero Dashboard v1.1 | Execution Framework")
