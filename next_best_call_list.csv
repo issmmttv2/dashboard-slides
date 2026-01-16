@@ -1,0 +1,21 @@
+customer_id,account_name,leakage_type,reason,est_recoverable_revenue
+CUST_020,Tiger Woods Enterprises,Frequency Drop,100% drop in order frequency,280339.402373767
+CUST_124,Roger Federer Enterprises,Frequency Drop,100% drop in order frequency,254988.0764941644
+CUST_028,LeBron James Enterprises,Frequency Drop,33% drop in order frequency,98782.10517608642
+CUST_128,LeBron James Enterprises,Frequency Drop,100% drop in order frequency,30323.760493720994
+CUST_055,Tiger Woods Enterprises,Frequency Drop,100% drop in order frequency,26833.74043776514
+CUST_106,Michael Jordan Enterprises,Frequency Drop,100% drop in order frequency,26421.85641793773
+CUST_130,Tiger Woods Enterprises,Frequency Drop,100% drop in order frequency,21765.398431535665
+CUST_043,LeBron James Enterprises,Frequency Drop,100% drop in order frequency,20084.486809185964
+CUST_070,Tiger Woods Enterprises,Frequency Drop,100% drop in order frequency,16129.017462433329
+CUST_040,Tiger Woods Enterprises,Frequency Drop,100% drop in order frequency,16095.437226092596
+CUST_108,LeBron James Enterprises,Frequency Drop,52% drop in order frequency,12401.35529291741
+CUST_041,Michael Jordan Enterprises,Frequency Drop,56% drop in order frequency,9871.816767552977
+CUST_085,Tiger Woods Enterprises,Frequency Drop,67% drop in order frequency,8808.418437534738
+CUST_112,Serena Williams Enterprises,Frequency Drop,100% drop in order frequency,8603.907467218016
+CUST_092,Serena Williams Enterprises,Frequency Drop,37% drop in order frequency,6788.267089167477
+CUST_090,Tiger Woods Enterprises,Frequency Drop,38% drop in order frequency,4674.972928029972
+CUST_088,LeBron James Enterprises,Frequency Drop,100% drop in order frequency,2025.2730251685523
+CUST_038,LeBron James Enterprises,Frequency Drop,100% drop in order frequency,1984.410328656313
+CUST_091,Michael Jordan Enterprises,Frequency Drop,100% drop in order frequency,1931.2193759018355
+CUST_087,Serena Williams Enterprises,Frequency Drop,100% drop in order frequency,1883.226786931673
