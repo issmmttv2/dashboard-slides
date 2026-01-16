@@ -171,7 +171,7 @@ elif page == "Product 2: Leakage Detector":
 
     st.subheader("Full Leakage Audit")
     st.dataframe(leakage_df, use_container_width=True, hide_index=True)
-
+'''
 # --- PAGE 4: PRODUCT 3 (PLAYBOOKS) ---
 elif page == "Product 3: Playbooks":
     st.title("📖 Product 3: Sales Playbook Logic")
@@ -214,7 +214,86 @@ elif page == "Product 3: Playbooks":
         2. **Focus Questions:** Ask about 'growth' for 1A and 'reasons for leaving' for 1B.
         3. **Sequence Effort:** Reps only see the playbooks for accounts with high ROI scores first.
         """)
+'''
+# --- PAGE 4: PRODUCT 3 (PLAYBOOKS) ---
+elif page == "Product 3: Playbooks":
+    st.title("📖 Product 3: Sales Playbooks")
+    
+    selection = st.selectbox("Select Playbook or Context", [
+        "Playbook: Phase 1A (Active/No Coverage)", 
+        "Playbook: Phase 1B (Dormant/Recovery)", 
+        "Product 0: How Data Shapes Execution"
+    ])
+    
+    if selection == "Playbook: Phase 1A (Active/No Coverage)":
+        st.subheader("Sales Playbook: Phase 1A (Active / No Coverage)")
+        st.info("**Target Profile:** High-revenue, frequent purchasers who currently lack a dedicated point of contact.\n\n**Strategic Intent:** Engagement & Consistency.")
+        
+        with st.expander("📞 Call Opening", expanded=True):
+            st.markdown("**Script:**")
+            st.code("I’m reaching out because I've been reviewing your recent order history. You've been highly active with us lately, and I want to ensure you have a direct point of contact to handle pricing tiers and logistics so you don't have to manage everything through the general portal.")
+            st.markdown("**Why This:** Establishes immediate relevance. By citing 'recent order history,' the rep proves they aren't cold calling. It pivots from a 'sales call' to a 'service upgrade.'")
 
+        with st.expander("🔍 Discovery Questions"):
+            st.markdown("**Script:**")
+            st.code("With your current volume, how are you currently managing lead times for your peak seasons? Are there specific product categories where you're finding it difficult to maintain consistent stock?")
+            st.markdown("**Why This:** Shifts the focus to operational friction. Since the account is active, the goal is to find 'invisible' pain points in their buying process that a dedicated rep can solve.")
+
+        with st.expander("🛡️ Objection Handling (Pushback: 'I'm fine using the website.')"):
+            st.markdown("**Script:**")
+            st.code("The site is great for speed, but it can’t flag upcoming inventory shortages or custom volume discounts before you hit 'buy.' My role is to sit behind the scenes and make sure those manual wins happen for you.")
+            st.markdown("**Why This:** Reframe. It doesn't fight their behavior; it adds a layer of value (inventory alerts/custom pricing) that the automated system cannot provide.")
+
+        with st.expander("📈 Cross-Sell Prompt"):
+            st.markdown("**Script:**")
+            st.code("I noticed your spend is concentrated in [Category A]. Many of our partners at your scale are now pairing those with [Category B] to streamline their shipping. Would it be helpful to see a comparison on those rates?")
+            st.markdown("**Why This:** Logic-based expansion. It suggests an adjacent category based on their actual buying scale, framed as a 'streamlining' efficiency.")
+
+        with st.expander("✉️ Follow-Up Email"):
+            st.markdown("**Subject:** Direct Contact / [Account Name]")
+            st.code("Great speaking today. I've attached my direct line and a quick look at the volume pricing tiers we discussed. I’ll keep an eye on your upcoming [Category A] needs and alert you to any stock shifts.")
+            st.markdown("**Why This:** Reinforces the 'direct line' value and demonstrates proactive monitoring.")
+        
+        st.caption("**Assumptions:** Assumes the customer values speed and inventory reliability over price alone.")
+
+    elif selection == "Playbook: Phase 1B (Dormant/Recovery)":
+        st.subheader("Sales Playbook: Phase 1B (Dormant / Revenue Recovery)")
+        st.info("**Target Profile:** Historically significant accounts where purchasing has stalled or stopped (e.g., 270+ days since last order).\n\n**Strategic Intent:** Recovery & Trust.")
+
+        with st.expander("📞 Call Opening", expanded=True):
+            st.markdown("**Script:**")
+            st.code("I was looking back at your account and realized it's been about nine months since our last project together. I wanted to reconnect to see if your requirements have changed or if there was a gap in our service that caused the shift in your ordering.")
+            st.markdown("**Why This:** Radical transparency. Acknowledging the exact timeframe (9 months) shows precision. Asking if there was a 'gap in service' gives the customer permission to air grievances.")
+
+        with st.expander("🔍 Diagnostic Discovery"):
+            st.markdown("**Script:**")
+            st.code("When you moved your volume away, what was the primary driver? Was it a shift in your project types, or did a competitor offer a specific capability or price point we failed to meet?")
+            st.markdown("**Why This:** Diagnostic. The goal is to identify if the leakage was due to price, product, or relationship. This is 'intelligence gathering' more than 'selling.'")
+
+        with st.expander("🛡️ Objection Handling (Pushback: 'We've moved to a different supplier.')"):
+            st.markdown("**Script:**")
+            st.code("I completely respect that. Suppliers win on different things. If I could sent over a 'win-back' quote on your top three historical items just so you have a baseline for your next RFQ, would you be open to keeping it on file?")
+            st.markdown("**Why This:** Acknowledge and Reframe. It accepts the current reality but positions the rep as a 'useful backup' or a price-check benchmark, keeping the door ajar.")
+
+        with st.expander("📈 Evolution/Cross-Sell Prompt"):
+            st.markdown("**Script:**")
+            st.code("Since we last worked together, we’ve overhauled our [Category C] offerings. Based on your previous specs, these might actually solve the [Old Pain Point] we discussed last year.")
+            st.markdown("**Why This:** Shows evolution. It gives the customer a reason to look at the company again by highlighting that 'things have changed' since they left.")
+
+        with st.expander("✉️ Follow-Up Email"):
+            st.markdown("**Subject:** Following up / Re-establishing our partnership")
+            st.code("Thanks for the feedback today. I've noted your comments regarding [Specific Reason for Leaving]. I’ve attached a custom catalog with our updated 2024 specs and pricing. I'd love the chance to quote your next project, even just as a second opinion.")
+            st.markdown("**Why This:** Execution discipline. It proves the rep listened to the reason they left and offers a low-pressure way to re-engage.")
+
+        st.caption("**Assumptions:** Assumes churn was due to a specific addressable event (service, price, or product gap) rather than the account closing permanently.")
+
+    elif selection == "Product 0: How Data Shapes Execution":
+        st.subheader("How Product 0 Shapes This Content")
+        st.markdown("""
+        * **Status-Driven Tone:** Phase 1A uses a 'congratulatory/service' tone because the data shows they are active. Phase 1B uses a 'humble/diagnostic' tone because the data shows they are dormant.
+        * **Urgency Mapping:** The Phase 1A playbook focuses on securing revenue that is already there but undefended (No Coverage). The Phase 1B playbook focuses on discovering why revenue was lost.
+        * **Data-Backed Openers:** Both playbooks use specific data points (order frequency vs. days since last order) to eliminate the 'cold' feel of the call and establish immediate authority.
+        """)
 # --- PAGE 5: PHASE DEEP-DIVES ---
 elif page == "Product 0: Phase Deep-Dives":
     st.title("📂 Execution Lists by Phase")
