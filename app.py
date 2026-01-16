@@ -171,50 +171,7 @@ elif page == "Product 2: Leakage Detector":
 
     st.subheader("Full Leakage Audit")
     st.dataframe(leakage_df, use_container_width=True, hide_index=True)
-'''
-# --- PAGE 4: PRODUCT 3 (PLAYBOOKS) ---
-elif page == "Product 3: Playbooks":
-    st.title("📖 Product 3: Sales Playbook Logic")
     
-    selection = st.selectbox("Select Playbook or Context", ["Playbook: Phase 1A (Active/No Coverage)", "Playbook: Phase 1B (Dormant/Recovery)", "The Role of Product 0"])
-    
-    if selection == "Playbook: Phase 1A (Active/No Coverage)":
-        st.subheader("Strategic Intent: Engagement & Consistency")
-        st.markdown("""
-        **Call Opening:** I noticed your account has been highly active, and I’m reaching out to ensure you have a direct point of contact for pricing and logistics.
-        
-        **Discovery Questions:** How are you managing lead times for peak seasons? Are there specific categories where you need more stock consistency?
-        
-        **Objection Handling:** (If they prefer the website) The site is great for speed, but I can flag inventory shortages or volume discounts before you hit 'buy.'
-        
-        **Follow-Up Email:** Great speaking. I've attached my direct line and the volume pricing tiers we discussed.
-        """)
-        st.caption("**Assumptions:** Assumes the customer values speed and inventory reliability over price alone.")
-
-    elif selection == "Playbook: Phase 1B (Dormant/Recovery)":
-        st.subheader("Strategic Intent: Recovery & Trust")
-        st.markdown("""
-        **Call Opening:** It’s been about nine months since our last project. I wanted to check in to see if your requirements changed or if we missed a beat on service.
-        
-        **Discovery Questions:** When you moved your volume away, what was the driver? Was it price, lead time, or a shift in project types?
-        
-        **Objection Handling:** (If they use a competitor) I respect that. If I could provide a 'win-back' quote for your top items just for your baseline, would that be useful?
-        
-        **Follow-Up Email:** Thanks for the feedback. I've noted your points and attached our updated 2024 catalog for a second opinion.
-        """)
-        st.caption("**Assumptions:** Assumes there was a specific reason for departure that can be diagnosed.")
-
-    elif selection == "The Role of Product 0":
-        st.subheader("How Product 0 Shapes Execution")
-        st.markdown("""
-        Product 0 provides the **Context** (Account Status), **Priority** (ROI Score), and **Reasoning** (Why they are in this phase).
-        
-        This allows us to:
-        1. **Match Tone to Status:** Use a service tone for active accounts and a diagnostic tone for dormant ones.
-        2. **Focus Questions:** Ask about 'growth' for 1A and 'reasons for leaving' for 1B.
-        3. **Sequence Effort:** Reps only see the playbooks for accounts with high ROI scores first.
-        """)
-'''
 # --- PAGE 4: PRODUCT 3 (PLAYBOOKS) ---
 elif page == "Product 3: Playbooks":
     st.title("📖 Product 3: Sales Playbooks")
