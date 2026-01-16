@@ -26,6 +26,7 @@ def load_data():
     summary = pd.read_excel(strategy_file, sheet_name='Phase_Summary')
     
     # 2. Coverage Workbook (Mock day1-2)
+    canonical_df = 'canonical_dataset.xlsx'
     coverage_file = 'mock_day1-2_account_coverage.xlsx'
     # Reading from sheet 'in' as per your file name
     coverage = pd.read_excel(coverage_file, sheet_name='in')
@@ -33,7 +34,7 @@ def load_data():
     # 3. Generated Leakage Files (CSVs)
     leakage = pd.read_csv('revenue_leakage_detector.csv')
     next_call = pd.read_csv('next_best_call_list.csv')
-    
+   
     return overview, actions, logic, summary, coverage, leakage, next_call
 
 try:
@@ -47,6 +48,7 @@ except Exception as e:
 st.sidebar.title("🛠 Navigation")
 page = st.sidebar.radio("Go to", [
     "Executive Summary",
+    "Canonical Dataset",
     "Product 0: Phase Deep-Dives",
     "Product 1: Coverage Analyzer", 
     "Product 2: Leakage Detector", 
@@ -110,6 +112,55 @@ if page == "Executive Summary":
         st.plotly_chart(fig_pie, use_container_width=True)
         st.caption("**Legend:** Proportional split of total account count across the four strategic phases.")
 
+# --- NEW PAGE: CANONICAL DATASET ---
+elif page == "Canonical Dataset":
+    st.title("🗂️ Canonical Dataset: The Single Source of Truth")
+    st.markdown("This dataset is the foundation of Product Zero. It merges customer masters, order history, and rep assignments into a normalized schema.")
+
+    # Visuals Row 1
+    c1, c2 = st.columns(2)
+    with c1:
+        st.subheader("Revenue by Category")
+        cat_rev = canonical_df.groupby('category')['order_value'].sum().reset_index()
+        fig_cat = px.bar(cat_rev, x='category', y='order_value', color='category', 
+                         text_auto='.2s', title="Total Spend per Vertical")
+        st.plotly_chart(fig_cat, use_container_width=True)
+    
+    with c2:
+        st.subheader("Monthly Revenue Trend")
+        trend = canonical_df.resample('M', on='order_date')['order_value'].sum().reset_index()
+        fig_trend = px.line(trend, x='order_date', y='order_value', markers=True, 
+                            title="Sales Velocity (Month over Month)")
+        st.plotly_chart(fig_trend, use_container_width=True)
+
+    # Visuals Row 2
+    c3, c4 = st.columns(2)
+    with c3:
+        st.subheader("Profitability Analysis")
+        fig_margin = px.histogram(canonical_df, x='margin', color='rep_role', 
+                                  marginal="box", title="Margin Distribution by Rep Tier")
+        st.plotly_chart(fig_margin, use_container_width=True)
+        
+    with c4:
+        st.subheader("Top 10 Accounts by Revenue")
+        top_accs = canonical_df.groupby('account_name')['order_value'].sum().nlargest(10).reset_index()
+        fig_top = px.bar(top_accs, x='order_value', y='account_name', orientation='h',
+                         title="Highest Value Portfolio Accounts")
+        st.plotly_chart(fig_top, use_container_width=True)
+
+    # The Legend
+    st.divider()
+    st.subheader("📘 Data Label Legend")
+    cols = st.columns(4)
+    cols[0].markdown("**Order Value**\nThe gross transaction amount in USD.")
+    cols[1].markdown("**Margin**\nThe profit retained after cost of goods sold.")
+    cols[2].markdown("**Category**\nThe specific product vertical (Plumbing, Safety, etc).")
+    cols[3].markdown("**Rep Role**\nSales tier: 'Outside' (Field) vs 'Inside' (Office).")
+
+    # Data Table
+    st.subheader("Raw Canonical Records")
+    st.dataframe(canonical_df, use_container_width=True)
+    
 # --- PAGE 2: PRODUCT 1 (COVERAGE) ---
 elif page == "Product 1: Coverage Analyzer":
     st.title("🎯 Product 1: Account Coverage Gap Analyzer")
