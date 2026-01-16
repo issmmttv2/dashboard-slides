@@ -26,8 +26,10 @@ def load_data():
     summary = pd.read_excel(strategy_file, sheet_name='Phase_Summary')
     
     # 2. Coverage Workbook (Mock day1-2)
-    canonical_df = 'canonical_dataset.xlsx'
+    #canonical_df = 'canonical_dataset.xlsx'
     coverage_file = 'mock_day1-2_account_coverage.xlsx'
+    canonical_df = pd.read_csv('canonical_dataset.xlsx - Sheet1.csv')
+    canonical_df['order_date'] = pd.to_datetime(canonical_df['order_date']) # Ensure dates are usable
     # Reading from sheet 'in' as per your file name
     coverage = pd.read_excel(coverage_file, sheet_name='in')
     
