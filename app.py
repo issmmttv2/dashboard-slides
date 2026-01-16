@@ -56,7 +56,7 @@ page = st.sidebar.radio("Go to", [
     "Product 1: Coverage Analyzer", 
     "Product 2: Leakage Detector", 
     "Product 3: Playbooks",
-    "Strategy & ROI Logic"
+    "Strategy & ROI Logic",
 ])
 
 # --- PAGE 1: EXECUTIVE SUMMARY ---
@@ -182,29 +182,48 @@ elif page == "Product 1: Coverage Analyzer":
     **Purpose:** Identify where sales resource allocation is out of sync with account potential.
     """)
     
+    # --- STRATEGIC LOGIC SECTION ---
+    st.subheader("The Coverage Logic")
+    col_logic1, col_logic2 = st.columns(2)
+    
+    with col_logic1:
+        st.info("**Sales Translation:** 'Making sure our best hunters are chasing the biggest opportunities, not small steady business.'")
+        st.latex(r"Status = \begin{cases} \text{Critical Gap} & \text{if Rep} = None \text{ and Phase} = 1A \\ \text{Under-Serviced} & \text{if Rep} = Inside \text{ and ROI} > 70 \\ \text{Over-Serviced} & \text{if Rep} = Outside \text{ and Phase} = 3 \end{cases}")
+
+    with col_logic2:
+        st.markdown("""
+        **The 'Phase 2' Threshold:**
+        * **ROI ≤ 70:** Inside Sales is **Aligned** (Current support matches potential).
+        * **ROI > 70:** Account is **Under-Serviced** (High potential requires a Field Rep).
+        """)
+
     with st.expander("📋 Coverage Audit Report (Insights)"):
         st.markdown("""
         - **Unprotected Revenue:** Phase 1A accounts have zero rep coverage despite high activity.
-        - **Misallocated Capacity:** High-cost field reps are often stuck on Phase 3 (low-value) stable accounts.
+        - **Misallocated Capacity:** High-cost field reps (Outside) are often stuck on Phase 3 (low-value) stable accounts.
         - **Ghost Coverage:** Many Phase 1B accounts are assigned to reps but continue to decline, suggesting inaction.
-        - **Opportunity:** Shifting low-value work away from field sales creates capacity for Phase 1A and 2 recovery.
+        - **Opportunity:** Shifting Phase 3 work to Digital/Inside creates capacity for Phase 1A recovery.
         """)
 
     st.markdown("""
     <div class='legend-box'>
-    <strong></strong><br>
-    ✅ <strong>Aligned:</strong> Role matches account potential.<br>
-    ❌ <strong>No Coverage:</strong> High-value account with no assigned rep.<br>
-    ⚠️ <strong>Misaligned:</strong> Rep role is either too high-cost for the value (Over-serviced) or too low-touch (Under-serviced).
+    ✅ <strong>Aligned:</strong> Role matches account potential (e.g., Phase 2 + ROI 64 + Inside Sales).<br>
+    ❌ <strong>No Coverage:</strong> High-value account (Phase 1A) with no assigned rep.<br>
+    ⚠️ <strong>Misaligned:</strong> Role is too high-cost for the value (Over-serviced) or too low-touch (Under-serviced).
     </div>
     """, unsafe_allow_html=True)
 
+    # 
+
     # Display Coverage List
     st.subheader("Account Coverage Mapping")
-    st.dataframe(coverage_df[['customer_id', 'recommended_phase', 'roi_speed_score', 'rep_role', 'coverage_flag']], use_container_width=True, hide_index=True)
+    # We use the actual dataframe from your mock_day1-2_account_coverage.xlsx
+    st.dataframe(coverage_df[['customer_id', 'recommended_phase', 'roi_speed_score', 'rep_role', 'coverage_flag']], 
+                 use_container_width=True, 
+                 hide_index=True)
     
     st.markdown("""
-    **How it's done:** We compare the ROI score and Phase (potential) against the actual Rep Role assigned.
+    **How it's done:** We audit the **ROI Score** against the **Rep Role**. If the potential (ROI) outgrows the resource (Inside), we flag for an upgrade.
     **Why it matters:** Ensuring the right person is talking to the right customer at the right time.
     """)
 # --- PAGE 2: TOP 10 HIT LIST ---
