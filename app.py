@@ -128,7 +128,7 @@ elif page == "Product 1: Coverage Analyzer":
 
     st.markdown("""
     <div class='legend-box'>
-    <strong>Legend:</strong><br>
+    <strong></strong><br>
     ✅ <strong>Aligned:</strong> Role matches account potential.<br>
     ❌ <strong>No Coverage:</strong> High-value account with no assigned rep.<br>
     ⚠️ <strong>Misaligned:</strong> Rep role is either too high-cost for the value (Over-serviced) or too low-touch (Under-serviced).
