@@ -251,9 +251,6 @@ elif page == "Product 2: Leakage Detector":
     st.markdown("""
     **Purpose:** Spotting silent attrition by identifying drops in order frequency before accounts go dormant.
     """)
-    st.markdown("""
-    *Purpose:* Spotting silent attrition by identifying drops in order frequency before accounts go dormant.
-    """)
 
     # --- STRATEGIC INSIGHTS SECTION ---
     st.subheader("Revenue Leakage: Strategic Insights")
