@@ -449,22 +449,32 @@ elif page == "Strategy & ROI Logic":
     st.latex(r"Est.\,Recoverable\,Revenue = (\text{Baseline Monthly Rev} - \text{Current Monthly Rev}) \times 12")
     st.info("**Why 12 months?** Annualizing the loss helps sales managers prioritize a 'consistent leak' over a one-time missed order.")
 
-    # 4. Coverage Gap Analysis
-    st.subheader("4. Coverage Gap Conditions")
+    # 4. Coverage Gap Analysis (ROI-Based Logic)
+    st.subheader("4. Coverage Gap Analysis & Resource Alignment")
     st.markdown("""
-    The system audits the alignment between **Account Potential** (Phase) and **Resource Cost** (Rep Role).
-    """)
-    
-    # Condition Table
-    st.markdown("""
-    | Condition | Criteria (Phase + Rep Role) | Strategic Action |
-    | :--- | :--- | :--- |
-    | **No Coverage** | Phase 1A / 1B + No Assigned Rep | **Urgent:** Highest ROI. Assign Rep immediately to stop churn. |
-    | **Misaligned (Under-serviced)** | Phase 1A / 2 + Inside Sales | **Upgrade:** High potential requires Outside Sales high-touch. |
-    | **Misaligned (Over-serviced)** | Phase 3 + Outside Sales | **Optimize:** High-cost resource on low-value account. Move to Digital. |
-    | **Aligned** | Phase matches Role (e.g. Phase 2 + Outside) | **Maintain:** Monitor for any frequency drops (Product 2). |
+    The system identifies gaps by comparing the **ROI Speed Score** (Account Potential) against the 
+    **Rep Role** (Resource Cost). A gap is not just "missing" coverage; it is "misaligned" coverage.
     """)
 
+    # Highlighting the ROI connection
+    st.info("""
+    **The ROI Rule:** - If **ROI Score > 70** and **Rep = None**, it is flagged as a **Phase 1A Critical Gap**.
+    - If **ROI Score > 70** and **Rep = Inside**, it is flagged as **Under-Serviced** (needs a Field Rep).
+    """)
+
+    # Formulas/Conditions for the Gap
+    st.markdown("### Coverage Status Conditions")
+    st.markdown(\"\"\"
+    | Condition | ROI Threshold | Assigned Role | Condition Met |
+    | :--- | :--- | :--- | :--- |
+    | **Critical Gap** | > 70 | None | High-potential revenue is undefended. |
+    | **Service Gap** | > 60 | Inside Sales | High-potential account is being under-served. |
+    | **Efficiency Gap** | < 30 | Outside Sales | High-cost resource is assigned to low-potential account. |
+    | **Optimized** | Matches Phase | Correct Tier | Resource is perfectly aligned with ROI speed. |
+    \"\"\")
+
+    # Formula for Logic (Pseudo-code)
+    st.latex(r"Gap\_Status = \begin{cases} \text{Critical} & \text{if } ROI > 70 \text{ and Rep} = None \\ \text{Misaligned} & \text{if } ROI > 70 \text{ and Rep} = Inside \\ \text{Inefficient} & \text{if } ROI < 30 \text{ and Rep} = Outside \end{cases}")
     # Visualizing the Result
     st.divider()
     st.subheader("Priority Clustering (The Output)")
