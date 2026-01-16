@@ -52,6 +52,7 @@ page = st.sidebar.radio("Go to", [
     "Executive Summary",
     "Canonical Dataset",
     "Product 0: Phase Deep-Dives",
+    "Top 10 Hit List",
     "Product 1: Coverage Analyzer", 
     "Product 2: Leakage Detector", 
     "Product 3: Playbooks",
@@ -206,7 +207,24 @@ elif page == "Product 1: Coverage Analyzer":
     **How it's done:** We compare the ROI score and Phase (potential) against the actual Rep Role assigned.
     **Why it matters:** Ensuring the right person is talking to the right customer at the right time.
     """)
-
+# --- PAGE 2: TOP 10 HIT LIST ---
+elif page == "Top 10 Hit List":
+    st.title("🏆 High-Velocity Top 10")
+    st.info("These accounts represent the highest recovery potential. Focus resources here for immediate impact.")
+    
+    top_10 = action_df.sort_values(by='roi_speed_score', ascending=False).head(10)
+    
+    # Highlight Table
+    st.dataframe(top_10[['account_name', 'roi_speed_score', 'recommended_phase', 'recommended_action', 'primary_reason']], 
+                 use_container_width=True, hide_index=True)
+    
+    # Speed Score Chart
+    fig_top = px.bar(top_10, x='roi_speed_score', y='account_name', orientation='h',
+                     color='roi_speed_score', color_continuous_scale='Greens',
+                     title="Top 10 Speed Scores (0-100)")
+    fig_top.update_layout(yaxis={'categoryorder':'total ascending'})
+    st.plotly_chart(fig_top, use_container_width=True)
+    
 # --- PAGE 3: PRODUCT 2 (LEAKAGE) ---
 elif page == "Product 2: Leakage Detector":
     st.title("📉 Product 2: Revenue Leakage Detector")
