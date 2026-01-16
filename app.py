@@ -278,7 +278,7 @@ elif page == "Product 3: Playbooks":
 
     elif selection == "Playbook: Phase 1B (Dormant/Recovery)":
         st.subheader("Sales Playbook: Phase 1B (Dormant / Revenue Recovery)")
-        st.info("**Target Profile:** Historically significant accounts where purchasing has stalled or stopped (e.g., 270+ days since last order).\n\n**Strategic Intent:** Recovery & Trust.")
+        st.info("**Target Profile:** Historically significant accounts where purchasing has stalled or stopped (180+ days since last order).\n\n**Strategic Intent:** Recovery & Trust.")
 
         with st.expander("📞 Call Opening", expanded=True):
             st.markdown("**Script:**")
