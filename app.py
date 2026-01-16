@@ -116,11 +116,8 @@ if page == "Executive Summary":
 
 # --- NEW PAGE: CANONICAL DATASET ---
 elif page == "Canonical Dataset":
-    st.title("🗂️ Canonical Dataset: The Single Source of Truth")
-    st.markdown("""
-    This section visualizes the raw data foundation. We are reading directly from 
-    the **canonical_dataset.xlsx** file you provided.
-    """)
+    st.title("🗂️ Canonical Dataset")
+    st.markdown("""""")
 
     # Load Data directly from Excel
     # Note: Ensure 'openpyxl' is installed in your environment
